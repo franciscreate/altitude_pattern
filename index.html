@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Scramble 3 – décodage</title>
+<meta name="description" content="Grille de tuiles qui se mélangent au hasard, puis pause de 3 secondes, en boucle.">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#373c41}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{height:100%;margin:0}
+body{background:var(--bg);overflow:hidden}
+svg{display:block;width:100%;height:100%}
+</style>
+</head>
+<body>
+<svg id="s" viewBox="0 0 2239 1490" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Grille de tuiles grises et jaunes qui se mélangent au hasard">
+<rect id="bg" width="2239" height="1490" fill="#373c41"/>
+<defs id="defs"></defs><g id="stage"></g>
+</svg>
+<script>
+const D={"tiles":[{"d":["M737.11,283.21h-81.72l-35.88,98.39v55.52h26.05v-44.41h101.39v44.41h26.05v-55.52l-35.89-98.39ZM650.53,370.63l24.4-65.31h42.64l24.4,65.31h-91.44Z"],"y":0,"ax":696.26,"ay":437.12},{"d":["M830.8,374.6v62.56h26.06v-44.43h101.77v44.43h26.06v-62.56l-76.95-70.26-76.95,70.26ZM941.7,370.64h-67.9l33.95-31,33.95,31Z"],"y":0,"ax":907.74,"ay":437.16},{"d":["M1068.19,283.25v131.83h40.1v22.07h-66.42v-153.91h26.33Z","M1169.45,437.16v-131.83h-40.1v-22.07h66.42v153.91h-26.33Z"],"y":1,"ax":1118.82,"ay":437.15},{"d":["M1253.22,376.07v61.08h26.06v-45.7h102.01v45.7h26.06v-61.08l-77.07-105.02-77.07,105.02ZM1370.11,369.37h-79.64l39.82-54.26,39.82,54.26Z"],"y":0,"ax":1330.28,"ay":437.15},{"d":["M1504.03,328.91l-38.93,46.71v61.53h26.06v-45.7h101.93v45.7h26.06v-61.53l-38.93-46.71h-76.2ZM1504.24,369.37l11.99-14.39h51.8l11.99,14.39h-75.78Z"],"y":0,"ax":1542.13,"ay":437.15},{"d":["M619.5,570.05v62.56h26.06v-44.43h101.77v44.43h26.06v-62.56l-76.95-70.26-76.95,70.26ZM730.4,566.09h-67.9l33.95-31,33.95,31Z"],"y":0,"ax":696.44,"ay":632.61},{"d":["M866.85,494.44l-35.71,78.53v59.64h26.06v-45.7h101.83v45.7h26.06v-59.64l-35.71-78.53h-82.53ZM863.47,564.82l21.96-48.29h45.37l21.96,48.29h-89.28Z"],"y":0,"ax":908.11,"ay":632.61},{"d":["M1042.26,571.52v61.08h26.06v-45.7h102.01v45.7h26.06v-61.08l-77.07-105.02-77.07,105.02ZM1159.14,564.82h-79.64l39.82-54.26,39.82,54.26Z"],"y":0,"ax":1119.32,"ay":632.6},{"d":["M1292.72,524.36l-38.93,46.71v61.53h26.06v-45.7h101.93v45.7h26.06v-61.53l-38.93-46.71h-76.2ZM1292.94,564.82l11.99-14.39h51.8l11.99,14.39h-75.78Z"],"y":0,"ax":1330.82,"ay":632.6},{"d":["M1491.92,478.7v131.83h40.1v22.07h-66.42v-153.91h26.33Z","M1593.17,632.61v-131.83h-40.1v-22.07h66.42v153.91h-26.33Z"],"y":1,"ax":1542.55,"ay":632.6},{"d":["M655.21,689.89l-35.71,78.53v59.64h26.06v-45.7h101.83v45.7h26.06v-59.64l-35.71-78.53h-82.53ZM651.84,760.27l21.96-48.29h45.37l21.96,48.29h-89.28Z"],"y":0,"ax":696.48,"ay":828.06},{"d":["M857.52,674.15v131.83h40.1v22.07h-66.42v-153.91h26.33Z","M958.78,828.05v-131.83h-40.1v-22.07h66.42v153.91h-26.33Z"],"y":1,"ax":908.15,"ay":828.05},{"d":["M1081.43,719.81l-38.93,46.71v61.53h26.06v-45.7h101.93v45.7h26.06v-61.53l-38.93-46.71h-76.2ZM1081.64,760.27l11.99-14.39h51.8l11.99,14.39h-75.78Z"],"y":0,"ax":1119.53,"ay":828.05},{"d":["M1371.62,674.07h-81.76l-35.9,98.44v55.55h26.06v-44.43h101.44v44.43h26.06v-55.55l-35.9-98.44ZM1285,761.53l24.41-65.34h42.66l24.41,65.34h-91.48Z"],"y":0,"ax":1330.74,"ay":828.06},{"d":["M1465.26,765.5v62.56h26.06v-44.43h101.77v44.43h26.06v-62.56l-76.95-70.26-76.95,70.26ZM1576.16,761.53h-67.9l33.95-31,33.95,31Z"],"y":0,"ax":1542.2,"ay":828.06},{"d":["M619.5,962.42v61.08h26.06v-45.7h102.01v45.7h26.06v-61.08l-77.07-105.02-77.07,105.02ZM736.39,955.71h-79.64l39.82-54.26,39.82,54.26Z"],"y":0,"ax":696.56,"ay":1023.5},{"d":["M870.3,915.26l-38.93,46.71v61.53h26.06v-45.7h101.93v45.7h26.06v-61.53l-38.93-46.71h-76.2ZM870.51,955.71l11.99-14.39h51.8l11.99,14.39h-75.78Z"],"y":0,"ax":908.39,"ay":1023.5},{"d":["M1160.27,869.52h-81.76l-35.9,98.44v55.55h26.06v-44.43h101.44v44.43h26.06v-55.55l-35.9-98.44ZM1073.64,956.98l24.41-65.34h42.66l24.41,65.34h-91.48Z"],"y":0,"ax":1119.39,"ay":1023.51},{"d":["M1279.9,869.59v131.83h40.1v22.07h-66.42v-153.91h26.33Z","M1381.15,1023.5v-131.83h-40.1v-22.07h66.42v153.91h-26.33Z"],"y":1,"ax":1330.53,"ay":1023.49},{"d":["M1500.91,885.33l-35.71,78.53v59.64h26.06v-45.7h101.83v45.7h26.06v-59.64l-35.71-78.53h-82.53ZM1497.54,955.71l21.96-48.29h45.37l21.96,48.29h-89.28Z"],"y":0,"ax":1542.18,"ay":1023.5},{"d":["M645.83,1065.04v131.83h40.1v22.07h-66.42v-153.91h26.33Z","M747.08,1218.95v-131.83h-40.1v-22.07h66.42v153.91h-26.33Z"],"y":1,"ax":696.46,"ay":1218.94},{"d":["M948.96,1064.96h-81.76l-35.9,98.44v55.55h26.06v-44.43h101.44v44.43h26.06v-55.55l-35.9-98.44ZM862.34,1152.43l24.41-65.34h42.66l24.41,65.34h-91.48Z"],"y":0,"ax":908.08,"ay":1218.95},{"d":["M1042.03,1156.39v62.56h26.06v-44.43h101.77v44.43h26.06v-62.56l-76.95-70.26-76.95,70.26ZM1152.93,1152.43h-67.9l33.95-31,33.95,31Z"],"y":0,"ax":1118.97,"ay":1218.95},{"d":["M1289.04,1080.78l-35.71,78.53v59.64h26.06v-45.7h101.83v45.7h26.06v-59.64l-35.71-78.53h-82.53ZM1285.66,1151.16l21.96-48.29h45.37l21.96,48.29h-89.28Z"],"y":0,"ax":1330.31,"ay":1218.95},{"d":["M1465.02,1157.86v61.08h26.06v-45.7h102.01v45.7h26.06v-61.08l-77.07-105.02-77.07,105.02ZM1581.91,1151.16h-79.64l39.82-54.26,39.82,54.26Z"],"y":0,"ax":1542.08,"ay":1218.94}]},MODE0=3;
+// ?v=1|2|3 change de proposition ; ?bg=RRGGBB change le fond
+const q=new URLSearchParams(location.search);let MODE=parseInt(q.get("v"));if(![1,2,3].includes(MODE))MODE=MODE0;
+const bgq=q.get("bg");if(/^[0-9a-f]{3,8}$/i.test(bgq||"")){document.documentElement.style.setProperty("--bg","#"+bgq);document.getElementById("bg").setAttribute("fill","#"+bgq)}
+const NS="http://www.w3.org/2000/svg",N=D.tiles.length,HOLD=3000,FIRST=1500,PI=Math.PI;
+const mk=(n,a)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);return e};
+const defs=document.getElementById("defs"),stage=document.getElementById("stage");
+D.tiles.forEach((t,k)=>{const g=mk("g",{id:"t"+k,fill:t.y?"#faaf41":"#b7bdc3",transform:`translate(${-t.ax} ${-t.ay})`});for(const d of t.d)g.appendChild(mk("path",{d}));defs.appendChild(g)});
+const nodes=D.tiles.map((_,i)=>{const u=mk("use",{href:"#t"+i});stage.appendChild(u);return u});
+const clamp=u=>u<0?0:u>1?1:u,ease=u=>u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2,rnd=Math.random;
+const anch=s=>{const t=D.tiles[s];return[t.ax,t.ay]};                 // slot s = emplacement d'origine de la tuile s
+let slotOf=D.tiles.map((_,k)=>k);                                        // slot occupé par chaque tuile
+const hash=(a,b)=>{let h=Math.imul(a*374761393+b*668265263,1274126177);h^=h>>>13;return((Math.imul(h,1103515245)>>>0)%100000)/100000};
+function rest(){
+  if(MODE===3){nodes.forEach((u,s)=>{const a=anch(s);u.setAttribute("href","#t"+slotOf.indexOf(s));u.setAttribute("transform",`translate(${a[0]} ${a[1]})`) })}
+  else nodes.forEach((u,k)=>{const a=anch(slotOf[k]);u.setAttribute("transform",`translate(${a[0]} ${a[1]})`)})}
+function shuffle(){let a,fixed;do{a=[...Array(N).keys()];for(let i=N-1;i>0;i--){const j=rnd()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}fixed=a.filter((v,k)=>v===slotOf[k]).length}while(fixed>2);return a}
+let phase="hold",tEnd=null,t0=0,mv=[],target=slotOf,fin=[],lock=[],paused=false;
+const DURM=MODE===1?1300:1700;
+function begin(now){target=shuffle();phase="move";t0=now;
+  if(MODE===3){fin=[];target.forEach((s,k)=>fin[s]=k);lock=Array.from({length:N},()=>350+rnd()*1700);return}
+  mv=D.tiles.map((_,k)=>{const p0=anch(slotOf[k]),p1=anch(target[k]),dx=p1[0]-p0[0],dy=p1[1]-p0[1],d=Math.hypot(dx,dy);
+    return{p0,dx,dy,d,delay:rnd()*700,arc:(rnd()*2-1)*Math.min(150,.3*d),cp:[200+rnd()*1840,150+rnd()*1190],rot:(rnd()<.5?-1:1)*(120+rnd()*240),sc:-.3+rnd()*.8}})}
+function end(now){slotOf=target.slice();rest();phase="hold";tEnd=now+HOLD}
+function update(now){
+  if(tEnd===null)tEnd=now+FIRST;
+  if(phase==="hold"){if(now>=tEnd)begin(now);return}
+  const e=now-t0;
+  if(MODE===3){let done=true;
+    nodes.forEach((u,s)=>{const a=anch(s),L=lock[s];
+      if(e>=L){const p=clamp((e-L)/200);u.setAttribute("href","#t"+fin[s]);const sc=1+.1*Math.sin(PI*p);
+        u.setAttribute("transform",`translate(${a[0]} ${a[1]}) translate(0 -75) scale(${sc}) translate(0 75)`)}
+      else{done=false;const st=Math.floor(e/85);u.setAttribute("href","#t"+Math.floor(hash(s+1,st)*N));u.setAttribute("transform",`translate(${a[0]} ${a[1]})`)}});
+    if(e>=2300)end(now);return}
+  let done=true;
+  mv.forEach((m,k)=>{const u=clamp((e-m.delay)/DURM);if(u<1)done=false;const v=ease(u),s=Math.sin(PI*v);let x,y,tr;
+    if(MODE===1){x=m.p0[0]+m.dx*v;y=m.p0[1]+m.dy*v;if(m.d>0){x+=-m.dy/m.d*m.arc*s;y+=m.dx/m.d*m.arc*s}tr=`translate(${x} ${y}) translate(0 -75) scale(${1-.1*s}) translate(0 75)`}
+    else{const w=1-v;x=w*w*m.p0[0]+2*w*v*m.cp[0]+v*v*(m.p0[0]+m.dx);y=w*w*m.p0[1]+2*w*v*m.cp[1]+v*v*(m.p0[1]+m.dy);
+      tr=`translate(${x} ${y}) translate(0 -75) rotate(${m.rot*s}) scale(${1+m.sc*s}) translate(0 75)`}
+    nodes[k].setAttribute("transform",tr)});
+  if(done)end(now)}
+rest();
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;let vis=true;
+if("IntersectionObserver"in window)new IntersectionObserver(e=>{vis=e[0].isIntersecting}).observe(document.getElementById("s"));
+(function loop(now){requestAnimationFrame(loop);if(reduce||paused||!vis)return;update(now)})(performance.now());
+</script>
+</body>
+</html>
